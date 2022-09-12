@@ -1,7 +1,7 @@
 import express from 'express'
-import {getShows} from '../controllers/shows.js'
+import {getPopularShows} from '../controllers/shows.js'
 const router = express.Router()
 
-router.get('/', getShows)
+router.get('/popular', getPopularShows)
 
 export default router
