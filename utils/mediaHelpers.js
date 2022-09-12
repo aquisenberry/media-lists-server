@@ -8,3 +8,12 @@ export const formatMediaData = (data,config) => {
           }
       })
   }
+  export const formatVideoGameData = (data) => {
+    return data.map((entry) => {
+          return {
+              title: entry.name,
+              year: new Date(entry.released).getFullYear(),
+              poster: entry.background_image
+          }
+      })
+  }
