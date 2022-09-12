@@ -17,3 +17,12 @@ export const formatMediaData = (data,config) => {
           }
       })
   }
+  export const formatBoardGameData = (data) => {
+    return data.map((entry) => {
+          return {
+              title: entry.name,
+              year: entry.year_published,
+              poster: entry.image_url
+          }
+      })
+  }
