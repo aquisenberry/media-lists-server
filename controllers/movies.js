@@ -3,12 +3,27 @@ import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-d
 dotenv.config()
 
 
+export const getPopularMovies = async (req,res) => {
+    try{
+        const cache = await req.app.get('cache')
+        const config = await cache.getItem(`${process.env.MOVIE_API}configuration?api_key=${process.env.MOVIE_KEY}`,{},80000)
+        const item = await cache.getItem(`${process.env.MOVIE_API}movie/popular?api_key=${process.env.MOVIE_KEY}`,{},80000)
+        const movies = formatData(item.data.results,config.data)
+        res.status(200).json(movies)
+    }
+    catch(error){
+        res.status(404).json({message: error})
+    }
+}
+
 export const getMovies = async (req,res) => {
     try{
-        const title = 'spiderman'
-        const response = await fetch(`${process.env.MOVIE_API}${process.env.MOVIE_KEY}&s=${title}`)
-        const movies = await response.json()
-        console.log(`returning ${movies.totalResults} movies`)
+        const cache = await req.app.get('cache')
+        const config = await cache.getItem(`${process.env.MOVIE_API}configuration?api_key=${process.env.MOVIE_KEY}`,{},80000)
+        const query = req.query.q
+        const item = await cache.getItem(`${process.env.MOVIE_API}search/movie?api_key=${process.env.MOVIE_KEY}&query=${query}`)
+        const movies = formatData(item.data.results,config.data)
+        console.log(movies)
         res.status(200).json(movies)
     }
     catch(error){
@@ -16,3 +31,12 @@ export const getMovies = async (req,res) => {
     }
 }
 
+const formatData = (data,config) => {
+  return data.map((entry) => {
+        return {
+            title: entry.title,
+            year: new Date(entry.release_date).getFullYear(),
+            poster: `${config.images.base_url}${config.images.poster_sizes[2]}${entry.poster_path}`
+        }
+    })
+}
