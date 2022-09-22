@@ -59,7 +59,7 @@ export const formatMovieData = (data,config) => {
   export const formatBookData = (data) => {
     return data.filter((entry) => entry.cover_i).map((entry) => {
         return {
-            _id: entry.cover_i,
+            _id: `${entry.cover_i}`,
             type: 'book',
             title: entry.title,
             year: entry.first_publish_year,
