@@ -57,16 +57,14 @@ export const formatMovieData = (data,config) => {
       })
   }
   export const formatBookData = (data) => {
-    return data.map((entry) => {
-        if(entry.cover_i){
-            return {
-                _id: entry.cover_i,
-                type: 'book',
-                title: entry.title,
-                year: entry.first_publish_year,
-                poster: `https://covers.openlibrary.org/b/ID/${entry.cover_i}-M.jpg`,
-                creator: entry.author
-            }
-        } 
+    return data.filter((entry) => entry.cover_i).map((entry) => {
+        return {
+            _id: entry.cover_i,
+            type: 'book',
+            title: entry.title,
+            year: entry.first_publish_year,
+            poster: `https://covers.openlibrary.org/b/ID/${entry.cover_i}-M.jpg`,
+            creator: entry.author
+        }
       })
   }
