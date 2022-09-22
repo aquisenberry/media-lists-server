@@ -8,9 +8,9 @@ export const getPopularBooks = async (req,res) => {
         let query = ""
         item.data.results.lists.forEach((list) => b = b.concat(list.books))
         query += `"${b.filter((book) => book['primary_isbn10'] && book['primary_isbn10'] !== "None")
-            .map((book) =>book['primary_isbn10']).slice(0,99)
+            .map((book) =>book['primary_isbn10'])
             .join('"OR"')}"`
-        const books = await cache.getItem(`${process.env.BOOK_DATA_API}?q=${query}&fields=title,first_publish_year,cover_i,author_name`)
+        const books = await cache.getItem(`${process.env.BOOK_DATA_API}?q=isbn:(${query})`)
         const formattedBooks = formatBookData(books.data.docs)
         res.status(200).json(formattedBooks)
     }
