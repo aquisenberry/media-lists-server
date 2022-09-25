@@ -25,3 +25,14 @@ export const getVideoGames = async (req,res) => {
     }
 }
 
+export const getVideoGameDetails = async (req,res) => {
+    try{
+        const cache = await req.app.get('cache')
+        const gameId = req.query.gameId
+        const item = await cache.getItem(`${process.env.GAME_API}/${gameId}?key=${process.env.GAME_KEY}`,{}, 80000)
+        res.status(200).json(item)
+    }
+    catch(error){
+        res.status(404).json({message: error.message})
+    }
+}

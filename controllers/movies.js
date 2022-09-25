@@ -28,3 +28,16 @@ export const getMovies = async (req,res) => {
         res.status(404).json({message: error.message})
     }
 }
+
+export const getMovieDetails = async (req,res) => {
+    try{
+        const cache = await req.app.get('cache')
+        const config = await cache.getItem(`${process.env.MOVIE_API}configuration?api_key=${process.env.MOVIE_KEY}`,{},80000)
+        const movieId = req.query.id
+        const item = await cache.getItem(`${process.env.MOVIE_API}/movie/${movieId}?api_key=${process.env.MOVIE_KEY}`)
+        res.status(200).json(item)
+    }
+    catch(error){
+        CredentialsContainer.status(404).json({message: error.message})
+    }
+}

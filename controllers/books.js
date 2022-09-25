@@ -10,7 +10,7 @@ export const getPopularBooks = async (req,res) => {
         query += `"${b.filter((book) => book['primary_isbn10'] && book['primary_isbn10'] !== "None")
             .map((book) =>book['primary_isbn10'])
             .join('"OR"')}"`
-        const books = await cache.getItem(`${process.env.BOOK_DATA_API}?q=isbn:(${query})`)
+        const books = await cache.getItem(`${process.env.BOOK_DATA_API}search.json?q=isbn:(${query})`)
         const formattedBooks = formatBookData(books.data.docs)
         res.status(200).json(formattedBooks)
     }
@@ -23,10 +23,22 @@ export const getBooks = async (req,res) => {
     try{
         const cache = await req.app.get('cache')
         const query = req.query.q
-        const item = await cache.getItem(`${process.env.BOOK_DATA_API}?q=${query}&fields=title,first_publish_year,cover_i,author_name`,{},80000)
+        const item = await cache.getItem(`${process.env.BOOK_DATA_API}search.json?q=${query}&fields=title,first_publish_year,cover_i,author_name`,{},80000)
         // let books = item.data.docs
         const formattedBooks = formatBookData(item.data.docs)
         res.status(200).json(formattedBooks)
+    }
+    catch(error){
+        res.status(404).json({message: error.message})
+    }
+}
+
+export const getBookDetails = async (req,res) => {
+    try{
+        const cache = await req.app.get('cache')
+        const id = req.query.id
+        const item = await cache.getItem(`${process.env.BOOK_DATA_API}books/${id}`, {}, 80000)
+        res.status(200).json(item)
     }
     catch(error){
         res.status(404).json({message: error.message})

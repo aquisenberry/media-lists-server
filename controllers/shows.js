@@ -28,3 +28,16 @@ export const getShows = async (req,res) => {
         res.status(404).json({message: error.message})
     }
 }
+
+export const getShowDetails = async (req,res) => {
+    try{
+        const cache = await req.app.get('cache')
+        const config = await cache.getItem(`${process.env.SHOW_API}configuration?api_key=${process.env.SHOW_KEY}`,{},80000)
+        const showId = req.query.id
+        const item = await cache.getItem(`${process.env.SHOW_API}/tv/${showId}?api_key=${process.env.SHOW_KEY}`)
+        res.status(200).json(item)
+    }
+    catch(error){
+        CredentialsContainer.status(404).json({message: error.message})
+    }
+}

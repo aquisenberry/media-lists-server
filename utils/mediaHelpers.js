@@ -3,7 +3,7 @@ export const formatMovieData = (data,config) => {
     return data.map((entry) => {
           return {
               _id: `${entry.id}`,
-              type:'movie',
+              type:'movies',
               title: entry.title,
               year: new Date(entry.release_date).getFullYear(),
               poster: `${config.images.base_url}${config.images.poster_sizes[2]}${entry.poster_path}`,
@@ -17,7 +17,7 @@ export const formatMovieData = (data,config) => {
     return data.map((entry) => {
           return {
               _id: `${entry.id}`,
-              type: 'show',
+              type: 'shows',
               title: entry.name,
               year: new Date(entry.release_date).getFullYear(),
               poster: `${config.images.base_url}${config.images.poster_sizes[2]}${entry.poster_path}`,
@@ -31,7 +31,7 @@ export const formatMovieData = (data,config) => {
     return data.map((entry) => {
           return {
               _id: `${entry.id}`,
-              type: 'video-game',
+              type: 'video-games',
               title: entry.name,
               year: new Date(entry.released).getFullYear(),
               poster: entry.background_image,
@@ -45,7 +45,7 @@ export const formatMovieData = (data,config) => {
     return data.map((entry) => {
           return {
               _id: `${entry.id}`,
-              type: 'board-game',
+              type: 'board-games',
               title: entry.name,
               year: entry.year_published,
               poster: entry.image_url,
@@ -59,8 +59,8 @@ export const formatMovieData = (data,config) => {
   export const formatBookData = (data) => {
     return data.filter((entry) => entry.cover_i).map((entry) => {
         return {
-            _id: `${entry.cover_i}`,
-            type: 'book',
+            _id: `${entry.cover_edition_key}`,
+            type: 'books',
             title: entry.title,
             year: entry.first_publish_year,
             poster: `https://covers.openlibrary.org/b/ID/${entry.cover_i}-M.jpg`,
