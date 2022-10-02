@@ -28,7 +28,7 @@ export const getVideoGames = async (req,res) => {
 export const getVideoGameDetails = async (req,res) => {
     try{
         const cache = await req.app.get('cache')
-        const gameId = req.query.gameId
+        const gameId = req.query.id
         const item = await cache.getItem(`${process.env.GAME_API}/${gameId}?key=${process.env.GAME_KEY}`,{}, 80000)
         res.status(200).json(item)
     }

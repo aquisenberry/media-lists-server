@@ -1,4 +1,4 @@
-import {formatMovieData} from '../utils/mediaHelpers.js'
+import {formatMovieData,formatMovieDetails} from '../utils/mediaHelpers.js'
 
 
 
@@ -35,9 +35,10 @@ export const getMovieDetails = async (req,res) => {
         const config = await cache.getItem(`${process.env.MOVIE_API}configuration?api_key=${process.env.MOVIE_KEY}`,{},80000)
         const movieId = req.query.id
         const item = await cache.getItem(`${process.env.MOVIE_API}/movie/${movieId}?api_key=${process.env.MOVIE_KEY}`)
-        res.status(200).json(item)
+        const formatedData = formatMovieDetails(item.data,config.data)
+        res.status(200).json(formatedData)
     }
     catch(error){
-        CredentialsContainer.status(404).json({message: error.message})
+        res.status(404).json({message: error.message})
     }
 }

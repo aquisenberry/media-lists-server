@@ -29,7 +29,7 @@ export const getBoardGames = async (req,res) => {
 export const getBoardGameDetails = async (req,res) => {
     try{
         const cache = await req.app.get('cache')
-        const gameId = req.query.gameId
+        const gameId = req.query.id
         const item = await cache.getItem(`${process.env.BOARD_GAME_API}search?client_id=${process.env.BOARD_GAME_CLIENT}&ids=${gameId}`, {},80000)
         res.status(200).json(item)
     }
