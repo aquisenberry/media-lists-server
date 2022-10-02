@@ -22,7 +22,7 @@ In the project directory, you can run:
 ### `npm start`
 
 Runs the app in the development mode.\
-Open [http://localhost:5000](http://localhost:5000) to view routes in the browser.
+Open (Default)[http://localhost:5000](http://localhost:5000) to view routes in the browser. If the PORT variable is changed, this will not continue to use port 5000
 
 ### `npm test`
 
