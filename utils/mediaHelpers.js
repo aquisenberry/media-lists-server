@@ -88,7 +88,7 @@ export const formatMovieDetails = (data,config) => {
     adult: data.adult
   }
 }
-export const formatShowDetails = (data,config) => {
+export const formatTVDetails = (data,config) => {
   return {
     _id: `${data.id}`,
     type: 'shows',
