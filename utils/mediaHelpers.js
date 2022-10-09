@@ -88,3 +88,42 @@ export const formatMovieDetails = (data,config) => {
     adult: data.adult
   }
 }
+export const formatShowDetails = (data,config) => {
+  return {
+    _id: `${data.id}`,
+    type: 'shows',
+    name: data.name,
+    poster: `${config.images.base_url}${config.images.poster_sizes[2]}${data.poster_path}`,
+    overview: data.overview,
+    genres: data.genres,
+    firstAiredDate: data.first_air_date,
+    productionCompanies: data.production_companies.map((pc) => {
+      return {
+        id: pc.id,
+        logo: `${config.images.base_url}${config.images.logo_sizes[2]}${pc.logo_path}`,
+        name: pc.name,
+        originCountry: pc.origin_country
+      }
+    }),
+    networks: data.networks.map((n) => {
+      return {
+        id: n.id,
+        logo: `${config.images.base_url}${config.images.logo_sizes[2]}${n.logo_path}`,
+        name: n.name,
+        originCountry: n.origin_country
+      }
+    }),
+    seasons: data.seasons.map((s) => {
+      return {
+        id: s.id,
+        name: s.name,
+        seasonNumber: s.season_number,
+        episodeCount: s.episode_count,
+        airDate: s.air_date,
+        poster: `${config.images.base_url}${config.images.poster_sizes[2]}${s.poster_path}`,
+      }
+    }),
+    episodeRuntime: data.episode_run_time,
+    adult: data.adult
+  }
+}
